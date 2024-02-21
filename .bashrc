@@ -28,7 +28,6 @@ wgclone() {
     repoName=$(basename -s .git "$1")
     cd "$repoName"
     cp "materials/linters/.clang-format" "src/"
-    cd "src"
     git fetch --all
     git checkout develop
     git checkout -b develop
@@ -40,7 +39,7 @@ wgclone() {
 }
 
 wgcc() {
-  gcc -Wall -Werror -Wextra $1 -lm -lncurses
+  gcc -Wall -Werror -Wextra $1 -lm -lncurses || return
   ./a.out
 }
 
