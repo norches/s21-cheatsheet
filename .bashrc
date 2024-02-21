@@ -9,9 +9,31 @@ wreview() {
     echo "Cloning the repository from '$1'..."
     git clone $1 "code"
     cd "code"
+    cp "materials/linters/.clang-format" "src/"
     cd "src"
     git fetch --all
     git checkout develop
+    code -n .
+  else
+    echo "Repository URL not provided."
+  fi
+}
+
+wgclone() {
+  # Clone
+  cd ~
+  if [[ -n "$1" ]]; then
+    echo "Cloning the repository from '$1'..."
+    git clone $1
+    repoName=$(basename -s .git "$1")
+    cd "$repoName"
+    cp "materials/linters/.clang-format" "src/"
+    cd "src"
+    git fetch --all
+    git checkout develop
+    git checkout -b develop
+    git push -u origin develop
+    code -n .
   else
     echo "Repository URL not provided."
   fi
