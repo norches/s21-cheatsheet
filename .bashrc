@@ -39,8 +39,10 @@ wgclone() {
 }
 
 wgcc() {
+  rm -rf a.out
   gcc -Wall -Werror -Wextra $1 -lm -lncurses || return
   ./a.out
+  rm -rf a.out
 }
 
 wclang() {
