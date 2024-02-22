@@ -80,9 +80,9 @@ wclang() {
 
 wvalg() {
   rm -rf a.out
-  wgcc $1
 
-  valgrind --tool=memcheck --leak-check=yes a.out
+  wgcc $1 -k -s
+  valgrind --tool=memcheck --leak-check=yes ./a.out
   rm -rf a.out
 }
 
