@@ -9,10 +9,10 @@ wreview() {
     echo "Cloning the repository from '$1'..."
     git clone $1 "code"
     cd "code"
-    cp "materials/linters/.clang-format" "src/"
-    cd "src"
     git fetch --all
     git checkout develop
+    cp "materials/linters/.clang-format" "src/"
+    cd "src"
     code -n .
   else
     echo "Repository URL not provided."
@@ -40,9 +40,37 @@ wgclone() {
 
 wgcc() {
   rm -rf a.out
-  gcc -Wall -Werror -Wextra $1 -lm -lncurses || return
-  ./a.out
-  rm -rf a.out
+  gcc -Wall -Werror -Wextra "$1" -lm -lncurses || return
+  local skip_run='false'
+  local keep_flag='false'
+
+  # Shift after processing the first argument to start processing flags
+  shift
+
+  # Process optional flags
+  while [ -n "$1" ]; do  # Loop through all remaining arguments
+      case "$1" in
+          --keep|-k)
+              keep_flag='true'  # Set the flag to true if --keep or -k is found
+              ;;
+          --skip-run|-s)
+              skip_run='true'  # Set the flag to true if --skip-run or -s is found
+              ;;
+          *)
+              echo "Unknown option: $1"
+              return 1
+              ;;
+      esac
+      shift  # Move to the next argument
+  done
+
+  if [ "$skip_run" = 'false' ]; then
+    ./a.out
+  fi
+
+  if [ "$keep_flag" = 'false' ]; then
+      rm -rf a.out
+  fi
 }
 
 wclang() {
@@ -51,7 +79,11 @@ wclang() {
 }
 
 wvalg() {
-  valgrind --tool=memcheck --leak-check=yes $1
+  rm -rf a.out
+  wgcc $1
+
+  valgrind --tool=memcheck --leak-check=yes a.out
+  rm -rf a.out
 }
 
 wcppck() {
