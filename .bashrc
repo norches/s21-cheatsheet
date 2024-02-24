@@ -88,7 +88,7 @@ wvalg() {
   rm -rf a.out
 
   wgcc $1 -k -s
-  valgrind --tool=memcheck --leak-check=yes ./a.out
+  valgrind --tool=memcheck --track-origins=yes --leak-check=full --show-leak-kinds=all -s ./a.out
   rm -rf a.out
 }
 
