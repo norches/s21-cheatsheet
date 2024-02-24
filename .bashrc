@@ -74,9 +74,15 @@ wgcc() {
 }
 
 wclang() {
-  clang-format -n -style="{BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 110}" $1
-  clang-format -i -style="{BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 110}" $1
+  clang-format -n -style="{BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 110}" *.c
+  clang-format -i -style="{BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 110}" *.c
 }
+
+wclangfile() {
+  clang-format -n -style="{BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 110}" "$1"
+  clang-format -i -style="{BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 110}" "$1"
+}
+
 
 wvalg() {
   rm -rf a.out
