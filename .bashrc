@@ -93,7 +93,7 @@ wvalg() {
 }
 
 wcppck() {
-  cppcheck --enable=all --suppress=missingIncludeSystem
+  cppcheck --enable=all --suppress=missingIncludeSystem $1
 }
 
 wfixchrome() {
